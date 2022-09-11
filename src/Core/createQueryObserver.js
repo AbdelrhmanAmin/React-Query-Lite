@@ -14,3 +14,5 @@ const createQueryObserver = (client, { queryKey, queryFn }) => {
   };
   return observer;
 };
+
+export default createQueryObserver;
