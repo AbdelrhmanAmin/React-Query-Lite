@@ -1,5 +1,7 @@
-const createQuery = ({ queryKey, queryFn }) => {
+const createQuery = (client, { queryKey, queryFn }) => {
   const query = {
+    queryKey,
+    queryHash: JSON.stringify(queryKey),
     // this is important to prevent deduping of requests (firing multiple times at the same time)
     promise: null,
     subscribers: [],
@@ -57,3 +59,5 @@ const createQuery = ({ queryKey, queryFn }) => {
     },
   };
 };
+
+export default createQuery;

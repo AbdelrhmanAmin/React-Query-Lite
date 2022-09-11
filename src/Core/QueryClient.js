@@ -1,3 +1,5 @@
+import createQuery from "./createQuery";
+
 class QueryClient {
   constructor() {
     this.queries = [];
@@ -8,8 +10,10 @@ class QueryClient {
     if (query) {
       return query;
     }
-    const newQuery = createQuery(options);
+    const newQuery = createQuery(this, options);
     this.queries.push(newQuery);
     return newQuery;
   };
 }
+
+export default QueryClient;
