@@ -13,7 +13,6 @@ const useQuery = (...options) => {
       queryFn,
       ...(opts || { staleTime: 1000, cacheTime: 5000 }), // if no options are passed, use default values
     };
-    console.log(query);
     observerRef.current = createQueryObserver(client, query);
   }
   useEffect(() => {

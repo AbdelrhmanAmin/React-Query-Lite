@@ -7,7 +7,14 @@ const fetchTodos = (count = 1) =>
     .then((data) => data);
 
 function App() {
-  const { data: todos = [] } = useQuery("todos", () => fetchTodos(10));
+  const { data: todos = [], isFetching } = useQuery(
+    "todos",
+    () => fetchTodos(10),
+    // {
+    //   cacheTime: 1000,
+    //   staleTime: 5000,
+    // }
+  );
   return (
     <div className="App">
       <h1>Todos</h1>
@@ -16,6 +23,7 @@ function App() {
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
+      {isFetching && <p>Loading...</p>}
     </div>
   );
 }
