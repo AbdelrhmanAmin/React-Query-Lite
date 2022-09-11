@@ -34,7 +34,7 @@ const createQuery = (client, { queryKey, queryFn }) => {
             data: undefined,
           }));
           try {
-            const data = queryFn();
+            const data = await queryFn();
             query.setState((prev) => ({
               ...prev,
               status: "success",
