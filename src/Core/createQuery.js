@@ -1,4 +1,4 @@
-const createQuery = (client, { queryKey, queryFn }) => {
+const createQuery = (client, { queryKey, queryFn, ...opts }) => {
   const query = {
     queryKey,
     queryHash: JSON.stringify(queryKey),
@@ -13,9 +13,24 @@ const createQuery = (client, { queryKey, queryFn }) => {
     },
     subscribe: (subscriber) => {
       query.subscribers.push(subscriber);
-      const unsubscribe = () =>
-        (query.subscribers = query.subscribers.filter((s) => s !== subscriber));
+      query.unscheduleGarbageCollection();
+      const unsubscribe = () => {
+        query.subscribers = query.subscribers.filter((s) => s !== subscriber);
+        if (!query.subscribers.length) {
+          query.scheduleGarbageCollection();
+        }
+      };
       return unsubscribe;
+    },
+    gcTimeout: null,
+    scheduleGarbageCollection: () => {
+      query.gcTime = setTimeout(() => {
+        // remove the query from the client if it has no subscribers.
+        client.queries = client.queries.filter((q) => q !== query);
+      }, opts.cacheTime);
+    },
+    unscheduleGarbageCollection: () => {
+      clearTimeout(query.gcTimeout);
     },
     setState: (updater) => {
       // function passed as arg to update the state.
@@ -38,6 +53,7 @@ const createQuery = (client, { queryKey, queryFn }) => {
             query.setState((prev) => ({
               ...prev,
               status: "success",
+              lastUpdated: Date.now(),
               data,
             }));
           } catch (error) {
