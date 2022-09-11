@@ -7,4 +7,4 @@ const QueryClientProvider = ({ children, client }) => {
 };
 
 const useQueryClient = () => React.useContext(context);
-export default { useQueryClient, QueryClientProvider };
+export { useQueryClient, QueryClientProvider };

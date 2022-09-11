@@ -58,6 +58,7 @@ const createQuery = (client, { queryKey, queryFn }) => {
       return query.promise;
     },
   };
+  return query;
 };
 
 export default createQuery;

@@ -1,8 +1,9 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import createQueryObserver from "./createQueryObserver";
 import { useQueryClient } from "./QueryClientProvider";
 
-const useQuery = ({ queryKey, queryFn }) => {
+const useQuery = (...options) => {
+  const [queryKey, queryFn] = options;
   const client = useQueryClient();
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const observerRef = useRef();

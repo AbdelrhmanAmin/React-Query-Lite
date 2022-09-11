@@ -1,4 +1,4 @@
-import QueryClientProvider from "./QueryClientProvider";
+import { QueryClientProvider } from "./QueryClientProvider";
 import QueryClient from "./QueryClient";
 import useQuery from "./useQuery";
 
